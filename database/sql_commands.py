@@ -21,9 +21,13 @@ class Database:
         def sql_select_fsm_table(self):
             return self.cursor.execute(sql_query.select_fsm_table).fetchall()
 
-        def sql_insert_product_table(self,title,county,name,description,price,photo):
-            self.cursor.execute(sql_query.insert_product_table,(None,title,county,name,description,price,photo))
+        def sql_insert_product_table(self, title, county, name, description, price, photo):
+            self.cursor.execute(sql_query.insert_product_table, (None, title, county, name, description, price, photo))
             self.connection.commit()
 
         def sql_select_product_table(self):
             return self.cursor.execute(sql_query.select_product_table).fetchall()
+
+        def sql_delete_product_table(self):
+            self.cursor.execute(sql_query.delete_product_table)
+            self.connection.commit()

@@ -30,3 +30,6 @@ INSERT OR IGNORE INTO product_table(id,title,county,name,description,price,photo
 select_product_table = """
 SELECT * FROM product_table
 """
+
+delete_product_table ="""
+DELETE FROM product_table WHERE id = product_id"""
