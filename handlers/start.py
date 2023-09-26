@@ -29,6 +29,7 @@ class Rerister(StatesGroup):
 
 async def fsm_start(message: types.Message):
     await message.reply('Send me your nickname')
+    print(message.from_user.id)
     await Rerister.nickname.set()
 
 async def load_nickname(message: types.Message,

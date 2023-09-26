@@ -51,15 +51,15 @@ async def load_price(message: types.Message,
 
 async def load_photo(message: types.Message,
                      state: FSMContext):
-    select = Database()
+    select = Database().sql_select_product_table()
     path = await message.photo[-1].download(
-        destination_dir="C:\ACER\PycharmProjects\Month_3_alma_dz\media")
-    async  with state.proxy() as data:
+        destination_dir= "C:\ACER\PycharmProjects\BisnasBot\media")
+    async with state.proxy() as data:
         data["photo"] = path.name
         Database().sql_insert_product_table(
+            name=message.from_user.username,
             title=data['title'],
             county=data['count'],
-            name=message.from_user.username,
             description=data['description'],
             price=data['price'],
             photo=data['photo']
@@ -72,13 +72,6 @@ async def load_photo(message: types.Message,
         await message.reply("finished loading product")
         await state.finish()
 
-    # markup = InlineKeyboardMarkup()
-    # button_call_1 = InlineKeyboardButton(
-    #     "Update Product",
-    #     callback_data="update_product"  # Связываем кнопку с командой "update_product"
-    # )
-    # markup.add(button_call_1)
-
 def register_update_product_handler(dp: Dispatcher):
     dp.register_message_handler(product_start, commands=["update_product"])
     dp.register_message_handler(load_title, content_types=["text"],
@@ -89,7 +82,8 @@ def register_update_product_handler(dp: Dispatcher):
                                 state=ProductState.description)
     dp.register_message_handler(load_price, content_types=["text"],
                                 state=ProductState.price)
-    dp.register_message_handler(load_photo,content_types=ContentType.PHOTO)
+    dp.register_message_handler(load_photo,state=ProductState.photo
+                                ,content_types=ContentType.PHOTO)
 
 
 
